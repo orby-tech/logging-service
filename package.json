@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start": "node server.js",
+    "test": "tap --watch --no-check-coverage"
+  },
+  "dependencies": {
+    "fastify": "^4.17.0"
+  },
+  "devDependencies": {
+    "pino-pretty": "^10.0.0",
+    "tap": "^16.3.4"
+  }
+}

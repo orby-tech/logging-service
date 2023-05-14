@@ -1,0 +1,43 @@
+[
+  {
+    "dateOnServer": 1684042623158,
+    "dateOnServiceSide": 1684039429397,
+    "serviceName": "test_service",
+    "moduleName": "test_module",
+    "messageType": "info",
+    "message": "test_message"
+  },
+  {
+    "dateOnServer": 1684042737670,
+    "dateOnServiceSide": 1684039429397,
+    "serviceName": "test_service",
+    "moduleName": "test_module",
+    "messageType": "info",
+    "message": "test_message",
+    "x": 123
+  },
+  {
+    "dateOnServer": 1684042746859,
+    "dateOnServiceSide": 1684039429397,
+    "serviceName": "test_service",
+    "moduleName": "test_module",
+    "messageType": "info",
+    "message": "test_message"
+  },
+  {
+    "dateOnServer": 1684044221451,
+    "dateOnServiceSide": 1684039429397,
+    "serviceName": "test_service",
+    "moduleName": "test_module",
+    "messageType": "info",
+    "message": "test_message"
+  },
+  {
+    "dateOnServer": 1684044274680,
+    "dateOnServiceSide": 1684039429397,
+    "serviceName": "test_service",
+    "moduleName": "test_module",
+    "messageType": "info",
+    "message": "test_message"
+  }
+]
