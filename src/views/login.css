@@ -1,0 +1,11 @@
+main {
+  height: 100vh;
+  gap: 40px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}

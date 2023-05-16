@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <title>Login</title>
+  </head>
+  <body>
+    <main>
+      <a href="/signup">Sign up --></a>
+
+      <form id="form">
+        <h1 class="title">Login</h1>
+        <input
+          type="username"
+          name="username"
+          placeholder="username"
+          class="input is-link"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="input is-link"
+        />
+        <button type="submit" class="button is-link">Login</button>
+        <button type="button" class="button is-light" onclick="demo()">
+          Try demo
+        </button>
+      </form>
+    </main>
+  </body>
+  <script>
+    const demo = () => {
+      console.log("demo");
+      login("demo", "demo");
+    };
+
+    const password = (a) => {
+      console.log(a);
+      a.preventDefault();
+      a.stopPropagation();
+      a.stopImmediatePropagation();
+
+      login(a.target.password.value, a.target.username.value);
+    };
+
+    const login = (password, username) => {
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: password,
+          username: username,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === "success") {
+            localStorage.setItem("token", data.token);
+            window.location.href = "/panel";
+          } else {
+            alert("Wrong password");
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+
+    document.getElementById("form").addEventListener("submit", password);
+  </script>
+</html>

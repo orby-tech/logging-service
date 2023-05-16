@@ -21,8 +21,11 @@ class LoggerController {
     this.logs = JSON.parse(loadedLogs);
   }
 
-  log(message) {
-    this.logs = [...this.logs, { dateOnServer: Date.now(), ...message }];
+  log(message, username) {
+    this.logs = [
+      ...this.logs,
+      { dateOnServer: Date.now(), ...message, username },
+    ];
   }
 
   createLogsFile() {

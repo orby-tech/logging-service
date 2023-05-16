@@ -5,7 +5,8 @@
     "serviceName": "test_service",
     "moduleName": "test_module",
     "messageType": "info",
-    "message": "test_message"
+    "message": "test_message",
+    "username": "demo"
   },
   {
     "dateOnServer": 1684042737670,

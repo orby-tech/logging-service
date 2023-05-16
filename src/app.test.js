@@ -12,6 +12,7 @@ const clearLogs = () => {
 test('requests the "/" route', async (t) => {
   const app = build({
     logsFile: "./test/logs.json",
+    serviciesFile: "./test/servicies.json",
     valueDir: "./test/",
   });
 
@@ -27,6 +28,7 @@ test('requests the "/" route', async (t) => {
 test('requests the "/log" route', async (t) => {
   const app = build({
     logsFile: "./test/logs.json",
+    serviciesFile: "./test/servicies.json",
     valueDir: "./test/",
   });
 
@@ -49,6 +51,7 @@ test('requests the "/log" route', async (t) => {
 test('requests the "/log" route must regect by key', async (t) => {
   const app = build({
     logsFile: "./test/logs.json",
+    serviciesFile: "./test/servicies.json",
     valueDir: "./test/",
   });
 

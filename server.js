@@ -1,4 +1,4 @@
-const { logsFile, valueDir } = require("./src/constants");
+const { logsFile, valueDir,serviciesFile } = require("./src/constants");
 
 const server = require("./src/app")({
   logger: {
@@ -9,6 +9,8 @@ const server = require("./src/app")({
   },
   logsFile,
   valueDir,
+  serviciesFile
+
 });
 
 const start = async () => {

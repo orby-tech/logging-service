@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Light weight Logging manager." />
+
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="panel.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <title>Logging panel</title>
+  </head>
+  <body>
+    <main>
+      <div class="services-container">
+        <h2 class="subtitle">Services</h2>
+        <ol class="services-list" id="services"></ol>
+        <button class="button is-link" id="add-service">Add service</button>
+      </div>
+      <div class="ignored">
+        <h2 class="subtitle">Ignored List:</h2>
+        <ul class="ignored-tags" id="ignored"></ul>
+      </div>
+      <div class="table-container">
+        <h2 class="subtitle">Logs</h2>
+        <table class="table" id="table"></table>
+      </div>
+    </main>
+
+    <div class="modal" id="add-service-modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <form id="add-service-form">
+          <input
+            class="input"
+            type="text"
+            name="serviceName"
+            placeholder="New servce name"
+          />
+          <button class="button is-link" type="submit" id="add-service-apply">
+            Add service
+          </button>
+        </form>
+      </div>
+      <button
+        class="modal-close is-large"
+        id="close-add-service-modal"
+        aria-label="close"
+      ></button>
+    </div>
+  </body>
+
+  <script type="module" src="panel.mjs"></script>
+</html>

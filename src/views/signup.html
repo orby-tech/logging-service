@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <title>Sign up</title>
+  </head>
+  <body>
+    <main>
+      <a href="/login"><--Login</a>
+      <form id="form">
+        <h1 class="title">Sign up</h1>
+        <input
+          type="username"
+          name="username"
+          placeholder="username"
+          class="input is-link"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="input is-link"
+        />
+        <input
+          type="password"
+          name="repassword"
+          placeholder="Retry password"
+          class="input is-link"
+        />
+        <button type="submit" class="button is-link">Sign up</button>
+      </form>
+    </main>
+  </body>
+  <script>
+    const password = (a) => {
+      console.log(a);
+      a.preventDefault();
+      a.stopPropagation();
+      a.stopImmediatePropagation();
+
+      fetch("/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: a.target.password.value,
+          username: a.target.username.value,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.status === "success") {
+            console.log("success");
+            localStorage.setItem("token", data.token);
+            window.location.href = "/panel";
+          } else {
+            alert("Wrong password");
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+
+    document.getElementById("form").addEventListener("submit", password);
+  </script>
+</html>
