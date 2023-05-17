@@ -1,16 +1,23 @@
 const fs = require("fs");
 
+const logsEvents = {
+  updated: "updated",
+  autovacuum: "autovacuum",
+};
+
 class LoggerController {
   _logs = [];
   logsFile = "";
   valueDir = "";
   set logs(logs) {
     this._logs = logs;
-    fs.writeFileSync(this.logsFile, JSON.stringify(logs, null, 2));
+    this.logsQueue.push(logsEvents.updated);
   }
   get logs() {
     return this._logs;
   }
+
+  logsQueue = [];
 
   constructor(logsFile, valueDir) {
     this.logsFile = logsFile;
@@ -19,6 +26,20 @@ class LoggerController {
     this.createLogsFile();
     const loadedLogs = fs.readFileSync(logsFile);
     this.logs = JSON.parse(loadedLogs);
+
+    setInterval(() => {
+      if (this.logsQueue.includes(logsEvents.autovacuum)) {
+        this.logs = this.logs.slice(0, 100000);
+        fs.writeFileSync(this.logsFile, JSON.stringify(this.logs, null, 2));
+      } else if (this.logsQueue.includes(logsEvents.updated)) {
+        fs.writeFileSync(this.logsFile, JSON.stringify(this.logs, null, 2));
+      }
+      this.logsQueue = [];
+    }, 1000);
+
+    setInterval(() => {
+      this.logsQueue.push(logsEvents.autovacuum);
+    }, 10000);
   }
 
   log(message, username) {
@@ -43,7 +64,21 @@ class LoggerController {
   createEmptyLogsFile() {
     const logsFile = this.logsFile;
     if (!fs.existsSync(logsFile)) {
-      fs.writeFileSync(logsFile, "[]");
+      const demo = [];
+
+      for (let i = 0; i < 100000; i++) {
+        demo.push({
+          dateOnServer: Date.now() - i * 1000,
+          dateOnServiceSide: Date.now() - i * 1000,
+          serviceName: "demo",
+          username: "demo",
+          moduleName: "demo",
+          messageType: "info",
+          message: "test_message",
+        });
+      }
+
+      fs.writeFileSync(logsFile, JSON.stringify(demo));
     }
   }
 }

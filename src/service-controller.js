@@ -17,14 +17,12 @@ class ServicesController {
     this.servicesFile = servicesFile;
     this.valueDir = valueDir;
     this.SECRET = SECRET;
-    console.log("servicesFile", servicesFile);
     this.createServicesFile();
     const loadedServicies = fs.readFileSync(servicesFile);
     this.services = JSON.parse(loadedServicies);
   }
 
   add(username, serviceName) {
-    console.log(27, this.SECRET, username, serviceName);
     const jwt = getJwtToken(
       {
         username,

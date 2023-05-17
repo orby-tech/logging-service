@@ -2,7 +2,7 @@ const { logsFile, valueDir,serviciesFile } = require("./src/constants");
 
 const server = require("./src/app")({
   logger: {
-    level: "info",
+    level: "warn",
     transport: {
       target: "pino-pretty",
     },

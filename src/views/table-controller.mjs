@@ -1,4 +1,4 @@
-import { loadTableData } from "./load-data.mjs";
+import { loadTableData as loadServicesData, loadLogs } from "./load-data.mjs";
 
 export default class TableController {
   _data = JSON.parse(localStorage.getItem("data") || "[]");
@@ -6,6 +6,7 @@ export default class TableController {
     localStorage.getItem("ignoreList") || '["username"]'
   );
   _services = JSON.parse(localStorage.getItem("services") || "[]");
+  _page = +JSON.parse(localStorage.getItem("page") || "1");
 
   set data(data) {
     this._data = data;
@@ -35,16 +36,30 @@ export default class TableController {
     return this._services;
   }
 
+  set page(page) {
+    this._page = page;
+    this.drawTable();
+    localStorage.setItem("page", JSON.stringify(page));
+    this.loadLogs();
+  }
+  get page() {
+    return this._page;
+  }
+
   constructor() {
     this.load();
   }
 
   async load() {
-    const data = await loadTableData();
+    const data = await loadServicesData();
 
-    this.data = data.logs;
+    this.loadLogs();
     this.services = data.services;
   }
+
+  loadLogs = async () => {
+    this.data = { ...this.data, ...(await loadLogs(this.page)) };
+  };
 
   drawServices = () => {
     const { services } = this;
@@ -71,6 +86,31 @@ export default class TableController {
     this.drawIgnored();
   };
 
+  drawControls = () => {
+    const { page } = this;
+    const controls = document.getElementById("controls");
+    this.clear(controls);
+    const prevButton = document.createElement("button");
+    prevButton.classList.add("button", "is-primary", "is-small");
+    prevButton.innerText = "Prev";
+    prevButton.onclick = () => {
+      this.page = page - 1;
+    };
+
+    const pageSpan = document.createElement("span");
+    pageSpan.innerText = page;
+
+    const nextButton = document.createElement("button");
+    nextButton.classList.add("button", "is-primary", "is-small");
+    nextButton.innerText = "Next";
+    nextButton.onclick = () => {
+      this.page = page + 1;
+    };
+    controls.appendChild(prevButton);
+    controls.appendChild(pageSpan);
+    controls.appendChild(nextButton);
+  };
+
   drawIgnored = () => {
     const { ignoreList } = this;
     const ignored = document.getElementById("ignored");
@@ -85,14 +125,23 @@ export default class TableController {
   };
 
   drawTable = () => {
-    const { data } = this;
+    this.drawControls();
+
+    const { data: _data } = this;
+
+    const logs = _data[this.page];
+
+    if (!logs) {
+      console.error("drawTable: No logs");
+      return;
+    }
 
     const table = document.getElementById("table");
     this.clear(table);
     const thead = document.createElement("thead");
     const tbody = document.createElement("tbody");
     const allHeaders = Array.from(
-      new Set(data.map((item) => Object.keys(item)).flat())
+      new Set(logs.map((item) => Object.keys(item)).flat())
     ).filter((header) => {
       return !this.ignoreList.includes(header);
     });
@@ -105,7 +154,7 @@ export default class TableController {
       return th;
     });
 
-    data.forEach((item) => {
+    logs.forEach((item) => {
       const tr = document.createElement("tr");
       allHeaders.forEach((header) => {
         const td = document.createElement("td");

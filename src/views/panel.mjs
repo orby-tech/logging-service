@@ -31,7 +31,6 @@ document
       }),
     })
       .then((data) => {
-        console.log(data);
         if (data.status === 200) {
           document
             .getElementById("add-service-modal")
@@ -40,5 +39,5 @@ document
           tableController.load();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   });

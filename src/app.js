@@ -18,7 +18,6 @@ function build(opts) {
   const app = fastify(opts);
 
   const { logsFile, valueDir, serviciesFile } = opts;
-  console.log(23, logsFile, valueDir, serviciesFile);
 
   const loggerController = new LoggerController(logsFile, valueDir);
   const servicesController = new ServicesController(
@@ -58,7 +57,6 @@ function build(opts) {
 
   app.register((instance, opts, done) => {
     instance.addHook("preHandler", (request, reply, done) => {
-      console.log(94, request.headers);
       const token = request.headers.authorization;
       if (!token || token.includes("Bearer") === false) {
         reply.code(401);
@@ -74,10 +72,6 @@ function build(opts) {
       }
 
       done();
-    });
-
-    instance.get("/", async (request, reply) => {
-      return loggerController.logs;
     });
 
     instance.post("/get-new-jwt", async (request, reply) => {
@@ -100,10 +94,30 @@ function build(opts) {
         request.headers.authorization.split(" ")[1],
         SECRET
       ).username;
+
       return {
         username,
-        logs: loggerController.logs.filter((log) => log.username === username),
         services: servicesController.get(username),
+      };
+    });
+
+    instance.get("/logs", function (request, reply) {
+      const username = validateJwtToken(
+        request.headers.authorization.split(" ")[1],
+        SECRET
+      ).username;
+
+      const page = (+request.query.page || 1) - 1;
+      const limit = request.query.limit || 20;
+
+      const allUserLogs = loggerController.logs.filter(
+        (log) => log.username === username
+      );
+
+      return {
+        [page + 0]: allUserLogs.slice((page - 1) * limit, page * limit),
+        [page + 1]: allUserLogs.slice(page * limit, (page + 1) * limit),
+        [page + 2]: allUserLogs.slice((page + 1) * limit, (page + 2) * limit),
       };
     });
 
@@ -112,7 +126,6 @@ function build(opts) {
 
   app.register((instance, opts, done) => {
     instance.addHook("preHandler", (request, reply, done) => {
-      console.log(94, request.headers);
       const token = request.headers.authorization;
       if (!token || token.includes("Bearer") === false) {
         reply.code(401);

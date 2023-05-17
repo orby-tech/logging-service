@@ -39,12 +39,10 @@
   </body>
   <script>
     const demo = () => {
-      console.log("demo");
       login("demo", "demo");
     };
 
     const password = (a) => {
-      console.log(a);
       a.preventDefault();
       a.stopPropagation();
       a.stopImmediatePropagation();
@@ -72,7 +70,7 @@
             alert("Wrong password");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
     };
 
     document.getElementById("form").addEventListener("submit", password);
