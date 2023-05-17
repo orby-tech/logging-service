@@ -76,7 +76,8 @@ function build(opts) {
 
     instance.post("/get-new-jwt", async (request, reply) => {
       const username = validateJwtToken(
-        request.headers.authorization.split(" ")[1]
+        request.headers.authorization.split(" ")[1],
+        SECRET
       ).username;
       return servicesController.getNewJWT(username, request.body.serviceName);
     });

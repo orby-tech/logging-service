@@ -39,10 +39,13 @@ class ServicesController {
   }
 
   getNewJWT(username, serviceName) {
-    const jwt = getJwtToken({
-      username,
-      serviceName,
-    });
+    const jwt = getJwtToken(
+      {
+        username,
+        serviceName,
+      },
+      this.SECRET
+    );
     return jwt;
   }
 

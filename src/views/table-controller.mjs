@@ -75,6 +75,24 @@ export default class TableController {
 
       button.addEventListener("click", async () => {
         console.log("click");
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch("/get-new-jwt", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            serviceName: service.serviceName,
+          }),
+        })
+          .then((data) => data.text())
+          .then(async (data) => {
+            await navigator.clipboard.writeText(data);
+            alert("Secret copied to clipboard")
+          });
+        console.log(response);
       });
       li.appendChild(button);
       select.appendChild(li);
