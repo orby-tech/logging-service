@@ -5,5 +5,3 @@ services:
     build: ./container
     ports:
       - 2400:2300
-    networks:
-      - postgres
