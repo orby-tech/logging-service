@@ -1,4 +1,4 @@
-const { logsFile, valueDir,serviciesFile } = require("./src/constants");
+const { logsFile, valueDir, serviciesFile } = require("./src/constants");
 
 const server = require("./src/app")({
   logger: {
@@ -9,13 +9,12 @@ const server = require("./src/app")({
   },
   logsFile,
   valueDir,
-  serviciesFile
-
+  serviciesFile,
 });
 
 const start = async () => {
   try {
-    await server.listen({ port: 2400 }, (err, address) => {
+    await server.listen({ port: 2400, host: "0.0.0.0" }, (err, address) => {
       if (err) {
         server.log.error(err);
         process.exit(1);
