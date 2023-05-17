@@ -44,5 +44,15 @@ li {
 }
 
 .table-container {
-    overflow-y: auto;
+  overflow-y: auto;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  width: 100%;
+  gap: 50px;
 }
