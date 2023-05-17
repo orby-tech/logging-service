@@ -32,6 +32,10 @@ function build(opts) {
   });
 
   app.register((instance, opts, done) => {
+    instance.get("/", function (req, reply) {
+      reply.redirect("/panel");
+    });
+
     instance.get("/login", function (req, reply) {
       reply.sendFile("login.html");
     });
